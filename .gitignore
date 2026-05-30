@@ -1,0 +1,4 @@
+   git add .gitignore .env.example
+   git commit -m "Add environment configuration"
+   git push
+   
