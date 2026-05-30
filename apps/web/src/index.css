@@ -1,0 +1,423 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --sidebar-width-collapsed-mobile: 60px;
+    --sidebar-width-expanded-mobile: 200px;
+    --sidebar-width-collapsed-desktop: 80px;
+    --sidebar-width-expanded-desktop: 250px;
+    
+    /* New Sidebar Custom Sizing Tokens */
+    --sidebar-width-mobile: 180px;
+    --sidebar-width-tablet: 200px;
+    --sidebar-width-desktop: 220px;
+    --sidebar-padding: 14px;
+    --menu-item-height: 36px;
+    --menu-item-padding: 12px;
+    --menu-item-gap: 6px;
+    --menu-item-font-size: 12px;
+    --menu-label-font-size: 10px;
+    --submenu-font-size: 11px;
+    --icon-size: 16px;
+    --icon-margin: 8px;
+    --menu-item-margin-bottom: 4px;
+
+    --transition-duration: 300ms;
+
+    --touch-target-min: 36px;
+    --touch-target-md: 40px;
+
+    --background: 210 40% 98%; 
+    --foreground: 222 47% 11%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    
+    --primary: 221 83% 53%; 
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 214 32% 91%;
+    --secondary-foreground: 222 47% 11%;
+    
+    --muted: 214 32% 91%;
+    --muted-foreground: 215 16% 47%;
+    
+    --accent: 142 71% 45%; 
+    --accent-foreground: 0 0% 100%;
+    
+    --destructive: 0 84% 60%; 
+    --destructive-foreground: 0 0% 100%;
+    
+    --success: 142 71% 45%; 
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 38 92% 50%; 
+    --warning-foreground: 0 0% 100%;
+
+    --payment-tunai: 142 71% 45%;
+    --payment-transfer: 221 83% 53%;
+    --payment-qris: 270 70% 50%;
+
+    --status-hadir: 142 71% 45%;
+    --status-izin: 38 92% 50%;
+    --status-sakit: 0 84% 60%;
+    --status-terlambat: 24 95% 53%;
+    
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+    
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 214 32% 91%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 221 83% 53%;
+
+    /* Grid & Cart Tokens - Reduced Gap */
+    --grid-gap-mobile: 0.5rem;
+    --grid-gap-tablet: 0.75rem;
+    --grid-gap-desktop: 1rem;
+    --card-shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --cart-item-bg-hover: 214 32% 95%;
+  }
+  
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    
+    --card: 217 33% 14%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 217 33% 14%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 217 33% 20%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 217 33% 20%;
+    --muted-foreground: 215 20% 65%;
+    
+    --accent: 142 71% 45%;
+    --accent-foreground: 0 0% 100%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --payment-tunai: 142 71% 45%;
+    --payment-transfer: 221 83% 53%;
+    --payment-qris: 270 70% 50%;
+
+    --status-hadir: 142 71% 45%;
+    --status-izin: 38 92% 50%;
+    --status-sakit: 0 84% 60%;
+    --status-terlambat: 24 95% 53%;
+    
+    --border: 217 33% 20%;
+    --input: 217 33% 20%;
+    --ring: 221 83% 53%;
+
+    --sidebar-background: 217 33% 14%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 33% 20%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 20%;
+    --sidebar-ring: 221 83% 53%;
+
+    /* Grid & Cart Tokens Dark */
+    --card-shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    --cart-item-bg-hover: 217 33% 18%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    font-size: 13px; /* Minimalist compact base font */
+    line-height: 1.4;
+  }
+
+  body {
+    @apply bg-background text-foreground text-body;
+    font-family: "DM Sans", sans-serif;
+    overflow-x: clip;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+
+  h1 { @apply text-h1 font-bold tracking-tight; }
+  h2 { @apply text-h2 font-semibold tracking-tight; }
+  h3 { @apply text-h3 font-medium; }
+  h4 { @apply text-body font-medium; }
+  
+  /* Reset input components */
+  input, select, textarea {
+    @apply text-input;
+  }
+  button {
+    @apply text-button;
+  }
+}
+
+@layer components {
+  .payment-card-tunai {
+    @apply border-l-4 shadow-sm transition-all duration-300;
+    border-left-color: hsl(var(--payment-tunai));
+  }
+  .payment-card-transfer {
+    @apply border-l-4 shadow-sm transition-all duration-300;
+    border-left-color: hsl(var(--payment-transfer));
+  }
+  .payment-card-qris {
+    @apply border-l-4 shadow-sm transition-all duration-300;
+    border-left-color: hsl(var(--payment-qris));
+  }
+  
+  .copy-feedback-animation {
+    animation: scale-check 0.3s ease-in-out;
+  }
+
+  .upload-area {
+    @apply relative flex flex-col items-center justify-center w-full min-h-[120px] border border-dashed rounded-xl cursor-pointer bg-muted/30 transition-all duration-200 overflow-hidden;
+  }
+  .upload-area:hover, .upload-area.is-dragging {
+    @apply bg-primary/5 border-primary/50;
+  }
+  .upload-area.has-error {
+    @apply border-destructive/50 bg-destructive/5;
+  }
+  
+  .qris-preview-container {
+    @apply relative w-full flex items-center justify-center bg-card rounded-xl border shadow-sm overflow-hidden aspect-square max-w-[200px] mx-auto;
+  }
+
+  .qris-display-wrapper {
+    @apply relative overflow-hidden rounded-xl border border-border shadow-sm flex items-center justify-center bg-white p-2 transition-all duration-300 hover:shadow-md;
+    width: 150px;
+    height: 150px;
+  }
+  
+  @media (min-width: 768px) {
+    .qris-display-wrapper {
+      width: 180px;
+      height: 180px;
+    }
+  }
+
+  .invoice-container {
+    font-family: 'Courier New', Courier, monospace;
+    color: #000;
+    background: #fff;
+    margin: 0 auto;
+    padding: 12px;
+    max-width: 80mm;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .invoice-separator {
+    border-top: 1px dashed #000;
+    margin: 6px 0;
+    width: 100%;
+  }
+
+  .invoice-separator-solid {
+    border-top: 1px solid #000;
+    margin: 6px 0;
+    width: 100%;
+  }
+
+  .invoice-qris-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+
+  /* Payment Form Styling */
+  .payment-field {
+    @apply space-y-1.5 animate-in fade-in slide-in-from-top-2 mt-3;
+  }
+  
+  .currency-input-wrapper {
+    @apply relative flex items-center;
+  }
+  
+  .currency-input-wrapper .currency-symbol {
+    @apply absolute left-3 text-muted-foreground font-medium pointer-events-none text-body;
+  }
+  
+  .currency-input-wrapper input {
+    @apply pl-10 text-foreground h-9 text-body font-bold font-mono bg-background transition-colors;
+  }
+
+  /* Grid & Cart Components */
+  .product-grid {
+    @apply grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-[var(--grid-gap-mobile)] md:gap-[var(--grid-gap-tablet)] lg:gap-[var(--grid-gap-desktop)];
+  }
+
+  .product-card {
+    @apply flex flex-col h-full bg-card border border-border rounded-lg overflow-hidden transition-all duration-300 cursor-pointer;
+  }
+  
+  .product-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
+    @apply border-primary/30;
+  }
+
+  .product-card:active {
+    transform: translateY(-1px) scale(0.99);
+  }
+
+  .cart-item-row {
+    @apply flex items-center justify-between py-2 px-2 -mx-2 rounded-md transition-colors duration-200 border-b border-border/50 last:border-0;
+  }
+
+  .cart-item-row:hover {
+    background-color: hsl(var(--cart-item-bg-hover));
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .table-row-striped:nth-child(even) {
+    @apply bg-muted/30;
+  }
+
+  .leaflet-container {
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+  }
+
+  .sidebar-transition {
+    transition: width var(--transition-duration) ease-in-out,
+                opacity var(--transition-duration) ease-in-out,
+                transform var(--transition-duration) ease-in-out,
+                padding var(--transition-duration) ease-in-out,
+                margin var(--transition-duration) ease-in-out;
+  }
+  
+  .sidebar-smooth-transition {
+    transition: all 300ms ease-in-out;
+  }
+
+  @keyframes scale-check {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  .animate-pulse-subtle {
+    animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Change amount display utilities */
+  .change-amount-positive {
+    @apply text-green-600 font-bold;
+  }
+
+  .change-amount-negative {
+    @apply text-red-600 font-bold;
+  }
+
+  .change-amount-zero {
+    @apply text-blue-600 font-bold;
+  }
+
+  /* Success text utility */
+  .text-success {
+    @apply text-green-600;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  .print-section, .print-section * {
+    visibility: visible;
+  }
+  
+  .print-section {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .invoice-container {
+    width: 80mm;
+    max-width: 80mm;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border: none;
+  }
+}
+
+.global-main-content header,
+.global-main-content aside {
+  display: none !important;
+}
+
+.global-main-content > .min-h-screen {
+  min-height: 100% !important;
+  height: 100% !important;
+  display: flex;
+  flex-direction: column;
+}
